@@ -4,7 +4,7 @@ public class ScoreTracker{
 	private ArrayList<Student> students;
 	public ScoreTracker(){
 	}
-	private void loadDataFromFile(String fileName){
+	private void loadDataFromFile(String fileName)throws Exception{
 		students=new ArrayList<Student>();
 		try{
 			FileReader reader=new FileReader(fileName);
@@ -13,6 +13,10 @@ public class ScoreTracker{
 				String nam=fil.nextLine();
 				String sc=fil.nextLine();
 				int score=-1;
+				if(!nam.contains(" ")){
+					fil.close();
+					throw new Exception("the line name "+nam+" doesn't contain both a first and last name");
+				}
 				try{
 					score=Integer.parseInt(sc);
 				}
@@ -34,37 +38,15 @@ public class ScoreTracker{
 			System.out.println(t);
 		}
 	}
-	public void processFiles(String[] filname){
+	public void processFiles(String[] filname)throws Exception{
 		for(String s:filname){
 			loadDataFromFile(s);
 			printInOrder();
 		}
 	}
-	private static String[] files={"scores2.txt", "badscore.txt","nofile.txt"};
-	public static void main(String args[]){
+	private static String[] files={"scores2.txt", "badscore.txt","nofile.txt","badname.txt"};
+	public static void main(String args[])throws Exception{
 		ScoreTracker track=new ScoreTracker();
 		track.processFiles(files);
-//		boolean out=true;
-//		Scanner sc = new Scanner(System.in);
-//		while(out){
-//			System.out.println("input a number choice:\n1: Add new course\n2: Display all courses\n3: quit");
-//			int i = Integer.parseInt(sc.nextLine());
-//			if(i==1){
-//				System.out.println("Enter the students name:");
-//				String name=sc.nextLine();
-//				System.out.println("Enter the students favorite course:");
-//				String course=sc.nextLine();
-//				h.put(name,course);
-//			}
-//			if(i==2){
-//				for(String f:h.keySet()){
-//					System.out.println(f+" likes the course "+h.get(f));
-//				}
-//			}
-//			if(i==3){
-//				out=false;
-//			}
-//		}
-//		sc.close();
 	}
 }
