@@ -9,7 +9,7 @@ public class Student implements Comparable<Student>{
 		return score;
 	}
 	public String toString(){
-		return nam+"has a score of "+score;
+		return nam+" has a score of "+score;
 	}
 	public int compareTo(Student t){
 		return this.nam.compareTo(t.nam);

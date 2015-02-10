@@ -3,25 +3,30 @@ import java.io.*;
 public class ScoreTracker{
 	private ArrayList<Student> students;
 	public ScoreTracker(){
-		students=new ArrayList<Student>();
 	}
 	private void loadDataFromFile(String fileName){
+		students=new ArrayList<Student>();
 		try{
 			FileReader reader=new FileReader(fileName);
 			Scanner fil=new Scanner(reader);
 			while(fil.hasNextLine()){
 				String nam=fil.nextLine();
-				int sc=Integer.parseInt(fil.nextLine());
-				students.add(new Student(nam,sc));
+				String sc=fil.nextLine();
+				int score=-1;
+				try{
+					score=Integer.parseInt(sc);
+				}
+				catch(NumberFormatException f){
+					System.out.println("ERROR: Score "+sc+" was not actually a number");
+				}
+				students.add(new Student(nam,score));
 			}
 			fil.close();
 		}
 		catch(FileNotFoundException e){
 			System.out.println("ERROR: File was not found :(");
 		}
-		catch(NumberFormatException f){
-			System.out.println("ERROR: Score line was not actually a number");
-		}
+		
 	}
 	private void printInOrder(){
 		Collections.sort(students);
@@ -31,13 +36,14 @@ public class ScoreTracker{
 	}
 	public void processFiles(String[] filname){
 		for(String s:filname){
-			loadDataFromFile();
+			loadDataFromFile(s);
 			printInOrder();
 		}
 	}
+	private static String[] files={"scores2.txt", "badscore.txt","nofile.txt"};
 	public static void main(String args[]){
 		ScoreTracker track=new ScoreTracker();
-		track.processFiles("scores2.txt");
+		track.processFiles(files);
 //		boolean out=true;
 //		Scanner sc = new Scanner(System.in);
 //		while(out){
